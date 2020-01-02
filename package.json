@@ -1,0 +1,23 @@
+{
+  "name": "socketiochat",
+  "version": "1.0.0",
+  "description": "A Chat App built using Socket.io.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FanciestW/SocketioChat.git"
+  },
+  "author": "@FanciestW",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FanciestW/SocketioChat/issues"
+  },
+  "homepage": "https://github.com/FanciestW/SocketioChat#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

@@ -9,9 +9,16 @@ app.get('/', (req, res) => {
 });
 
 io.on('connect', (socket) => {
-    console.log(`A User Connectioned with socket id: ${socket.id}`);
+    console.log(`User Connectioned with socket id: ${socket.id}`);
+
+    // When a chat message is received.
+    socket.on('chat message', (msg) => {
+        console.log(`User with socket id: ${socket.id} said: ${msg}`);
+    });
+
+    // When a socket/client disconnects.
     socket.on('disconnect', () => {
-        console.log(`A User has Disconnected with socket id: ${socket.id}`);
+        console.log(`User has Disconnected with socket id: ${socket.id}`);
     });
 });
 

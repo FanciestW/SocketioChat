@@ -68,6 +68,21 @@
                 $('#m').val('');
                 return false;
             });
+
+            // Socket received 'chat message' event.
+            socket.on('chat message', (msg) => {
+                $('#messages').append($('<li>').text(msg));
+            });
+
+            // Socket received 'user connected' event.
+            socket.on('user connected', (data) => {
+                window.alert(data.socketId);
+            });
+
+            // Socket received 'welcome' event.
+            socket.on('welcome', (data) => {
+                window.alert(data.serverMsg);
+            });
         });
     </script>
 </body>

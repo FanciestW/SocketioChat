@@ -86,7 +86,7 @@
 
             // Socket received 'user connected' event.
             socket.on('user connected', (data) => {
-                window.alert(data.username);
+                window.alert(`${data.username} has joined.`);
             });
 
             // Socket received 'welcome' event.

@@ -3,6 +3,8 @@
 
 <head>
     <title>Socket.IO chat</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
         * {
             margin: 0;
@@ -58,11 +60,19 @@
         <input id="m" autocomplete="off" /><button>Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
     <script>
-        $(function() {
+        $(function () {
             var socket = io();
-            $('form').submit(function(e) {
+            $('form').submit(function (e) {
                 e.preventDefault(); // prevents page reloading.
                 socket.emit('chat message', $('#m').val());
                 $('#m').val('');
@@ -70,19 +80,25 @@
             });
 
             // Socket received 'chat message' event.
-            socket.on('chat message', (msg) => {
-                $('#messages').append($('<li>').text(msg));
+            socket.on('chat message', (data) => {
+                $('#messages').append($('<li>').text(data.msg));
             });
 
             // Socket received 'user connected' event.
             socket.on('user connected', (data) => {
-                window.alert(data.socketId);
+                window.alert(data.username);
             });
 
             // Socket received 'welcome' event.
             socket.on('welcome', (data) => {
                 window.alert(data.serverMsg);
             });
+
+            // Socket receive 'ask name' event.
+            socket.on('ask name', () => {
+                const username = window.prompt('Enter a username please:');
+                socket.emit('new user', username);
+            })
         });
     </script>
 </body>

@@ -32,8 +32,12 @@ io.on('connect', (socket) => {
     socket.on('chat message', (msg) => {
         console.log(`User with socket id: ${socket.id} said: ${msg}`);
         const { username } = users.find((u) => { return u.socketId === socket.id; });
+        
         // Emit message from client to all other clients including the sender client.
-        io.emit('chat message', { msg: `${username} said: ${msg}` });
+        // io.emit('chat message', { msg: `${username} said: ${msg}` });
+
+        // Broadcast message to all other clients excluding the original sender.
+        socket.broadcast.emit('chat message', { msg: `${username} said: ${msg}` });
     });
 
     // When a socket/client disconnects.

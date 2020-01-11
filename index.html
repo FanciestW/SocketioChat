@@ -93,7 +93,13 @@
 
             // Socket received 'welcome' event.
             socket.on('welcome', (data) => {
+                console.log(data);
                 window.alert(data.serverMsg);
+                if ('messages' in data) {
+                    data.messages.forEach((m) => {
+                        $('#messages').append($('<li>').text(m));
+                    });
+                }
             });
 
             // Socket receive 'ask name' event.

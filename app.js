@@ -5,6 +5,7 @@ const io = require('socket.io')(http);
 const PORT = process.env.PORT || 8080;
 
 const users = [];
+const messages = [];
 
 app.get('/', (req, res) => {
     return res.sendFile(__dirname + '/index.html');
@@ -25,7 +26,7 @@ io.on('connect', (socket) => {
         users.push({ socketId: socket.id, username });
         // Emit user connected message to all connected clients except for the sender client.
         socket.broadcast.emit('user connected', { username, });
-        socket.emit('welcome', { serverMsg: `Welcome to the chat ${username}!`});
+        socket.emit('welcome', { serverMsg: `Welcome to the chat ${username}!`, messages, });
     });
 
     // When a chat message is received.
@@ -33,11 +34,13 @@ io.on('connect', (socket) => {
         console.log(`User with socket id: ${socket.id} said: ${msg}`);
         const { username } = users.find((u) => { return u.socketId === socket.id; });
         
+        const newMessage = `${username} said: ${msg}`;
+        messages.push(newMessage);
         // Emit message from client to all other clients including the sender client.
         // io.emit('chat message', { msg: `${username} said: ${msg}` });
 
         // Broadcast message to all other clients excluding the original sender.
-        socket.broadcast.emit('chat message', { msg: `${username} said: ${msg}` });
+        socket.broadcast.emit('chat message', { msg: newMessage });
     });
 
     // When a socket/client disconnects.
